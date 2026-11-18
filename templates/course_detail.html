@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{ course.title }} · Cloud4Green Academy{% endblock %}
+{% block content %}
+<section class="page-hero page-width course-hero">
+  <div>
+    <a class="back-link" href="{{ url_for('my_learning') }}">← My learning</a>
+    <span class="eyebrow">Course pathway · {{ course.category }}</span>
+    <h1>{{ course.title }}</h1>
+    <p>{{ course.description }}</p>
+  </div>
+  {% if enrolled %}
+    <div class="course-progress-summary"><strong>{{ progress.percent }}%</strong><span>{{ progress.completed }} of {{ progress.total }} lessons complete</span><div class="progress-track"><span style="width: {{ progress.percent }}%"></span></div></div>
+  {% else %}
+    <form action="{{ url_for('enroll', course_id=course.id) }}" method="post"><button class="button button-primary" type="submit">Enroll in course <span aria-hidden="true">→</span></button></form>
+  {% endif %}
+</section>
+{% if certificate %}
+  <section class="completion-banner page-width">
+    <span class="completion-confetti" aria-hidden="true">✦</span>
+    <div><strong>Course complete — your certificate is ready!</strong><p>Verification code: <code>{{ certificate.code }}</code></p></div>
+    <a class="button button-white" href="{{ url_for('view_certificate', certificate_code=certificate.code) }}">View certificate <span aria-hidden="true">→</span></a>
+  </section>
+{% endif %}
+<section class="course-workspace page-width">
+  <div class="lesson-panel panel">
+    <div class="panel-heading"><div><span class="eyebrow">{{ course.lessons }} short lessons</span><h2>Course outline</h2></div><span class="outline-count">{{ progress.completed }}/{{ progress.total }}</span></div>
+    <ol class="lesson-list">
+      {% for lesson in lessons %}
+        {% set lesson_number = loop.index %}
+        {% set lesson_done = lesson_number in progress.completed_lessons %}
+        <li class="{{ 'lesson-complete' if lesson_done else '' }}">
+          <span class="lesson-number">{% if lesson_done %}✓{% else %}{{ "%02d"|format(lesson_number) }}{% endif %}</span>
+          <div class="lesson-copy"><h3>{{ lesson }}</h3><span>{{ "Completed" if lesson_done else "Lesson " ~ lesson_number }}</span></div>
+          {% if enrolled and not lesson_done %}
+            <form action="{{ url_for('complete_course_lesson', course_id=course.id, lesson_number=lesson_number) }}" method="post"><button class="lesson-action" type="submit" aria-label="Mark {{ lesson }} complete">Mark done</button></form>
+          {% elif not enrolled %}
+            <span class="lesson-locked" aria-label="Enroll to unlock">🔒</span>
+          {% else %}
+            <span class="lesson-check" aria-label="Completed">✓</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+
+  <aside class="assistant-panel panel">
+    <div class="assistant-heading">
+      <span class="assistant-avatar" aria-hidden="true">✦</span>
+      <div><span class="eyebrow">Course companion</span><h2>AI doubt-solver</h2></div>
+      <span class="assistant-status">Demo</span>
+    </div>
+    {% if enrolled %}
+      <p class="assistant-intro">Ask a question about {{ course.title }}. I’ll help explain the course topics.</p>
+      <div class="chat-messages" data-chat-messages aria-live="polite">
+        <div class="chat-message assistant-message"><span class="chat-speaker">Course assistant</span><p>Hi {{ current_user }}! Choose a suggested question or ask about anything in this course.</p></div>
+      </div>
+      <div class="suggested-questions" aria-label="Suggested questions">
+        {% for topic in help_topics %}
+          <button type="button" data-chat-suggestion="{{ topic.question }}">{{ topic.question }}</button>
+        {% endfor %}
+      </div>
+      <form class="chat-form" data-chat-form data-chat-url="{{ url_for('course_help', course_id=course.id) }}">
+        <label class="sr-only" for="chat-question-{{ course.id }}">Ask a {{ course.title }} question</label>
+        <input id="chat-question-{{ course.id }}" name="question" type="text" maxlength="500" placeholder="Ask a course question…" autocomplete="off" required>
+        <button type="submit" aria-label="Send question">↑</button>
+      </form>
+      <p class="assistant-disclaimer">Prototype guide uses curated course-topic answers; it is not connected to a live AI model.</p>
+    {% else %}
+      <div class="assistant-locked"><span class="empty-icon" aria-hidden="true">✦</span><h3>Get help as you learn</h3><p>Enroll in this course to track lesson progress and ask the course assistant questions.</p><form action="{{ url_for('enroll', course_id=course.id) }}" method="post"><button class="button button-primary" type="submit">Enroll to get started</button></form></div>
+    {% endif %}
+  </aside>
+</section>
+{% endblock %}

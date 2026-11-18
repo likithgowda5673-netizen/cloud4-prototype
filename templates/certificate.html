@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ "Certificate of completion" if certificate else "Certificate not found" }} · Cloud4Green Academy{% endblock %}
+{% block content %}
+<section class="certificate-document-page page-width">
+  <div class="certificate-toolbar">
+    <a class="back-link" href="{{ url_for('verify_certificate') }}">← Verify a certificate</a>
+    {% if certificate %}<button class="button button-outline" type="button" data-print-certificate>Print / Save as PDF</button>{% endif %}
+  </div>
+  {% if certificate %}
+    <article class="certificate-document">
+      <div class="certificate-document-inner">
+        <div class="certificate-document-brand">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="brand-name">Cloud<span>4</span>Green<small>ACADEMY</small></span>
+        </div>
+        <span class="certificate-kicker">CLOUD4GREEN ACADEMY · LEARNING ACHIEVEMENT</span>
+        <h1>Certificate<br><span>of completion</span></h1>
+        <p class="certificate-presented">This certificate is awarded to</p>
+        <h2 class="certificate-recipient">{{ certificate.learner }}</h2>
+        <p class="certificate-course-copy">for successfully completing the course</p>
+        <h3 class="certificate-course-title">{{ certificate.course }}</h3>
+        <div class="certificate-document-footer">
+          <div class="certificate-date"><span>DATE ISSUED</span><strong>{{ certificate.issued }}</strong></div>
+          <div class="certificate-award-mark" aria-hidden="true">✓</div>
+          <div class="certificate-date certificate-code"><span>VERIFICATION CODE</span><strong>{{ certificate.code }}</strong></div>
+        </div>
+        <p class="certificate-document-note">{{ "Sample demonstration certificate" if certificate.is_sample else "Prototype course-completion certificate" }} · Verify this code at <span>{{ url_for('verify_certificate', _external=True) }}</span></p>
+        <span class="certificate-watermark" aria-hidden="true">✦</span>
+      </div>
+    </article>
+    <div class="certificate-document-actions">
+      <p>Keep this verification code with your certificate.</p>
+      <a class="button button-primary" href="{{ url_for('verify_certificate', code=certificate.code) }}">Verify this certificate <span aria-hidden="true">→</span></a>
+    </div>
+  {% else %}
+    <div class="empty-state certificate-not-found"><span class="empty-icon" aria-hidden="true">?</span><h2>Certificate not found</h2><p>No certificate matches <strong>{{ code }}</strong>. Check the code and try again.</p><a class="button button-primary" href="{{ url_for('verify_certificate') }}">Check another code</a></div>
+  {% endif %}
+</section>
+{% endblock %}

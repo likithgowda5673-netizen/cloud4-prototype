@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My learning · Cloud4Green Academy{% endblock %}
+{% block content %}
+<section class="page-hero page-width">
+  <div><span class="eyebrow">Your personal learning space</span><h1>My learning</h1><p>Everything you’re learning, all in one place.</p></div>
+  <a class="button button-primary" href="{{ url_for('courses') }}">Discover a course <span aria-hidden="true">→</span></a>
+</section>
+<section class="my-learning-section page-width">
+  {% if courses %}
+    <div class="section-heading compact-heading"><div><h2>Your courses <span class="heading-count">{{ courses|length }}</span></h2><p>Keep your momentum going.</p></div></div>
+    <div class="course-grid catalog-grid">
+      {% for course in courses %}
+        <article class="course-card">
+          <div class="course-art art-{{ course.accent }}"><span class="course-art-icon" aria-hidden="true">{{ course.icon }}</span><span class="course-art-tag">In progress</span><span class="art-decoration art-decoration-one"></span><span class="art-decoration art-decoration-two"></span></div>
+          <div class="course-info"><div class="course-meta"><span>{{ course.category }}</span><span class="meta-dot"></span><span>{{ course.level }}</span></div><h3>{{ course.title }}</h3><p>{{ course.description }}</p>{% set course_percent = course_progress[course.id].percent %}<div class="my-progress"><div class="progress-caption"><span>Course progress</span><b>{{ course_percent }}%</b></div><div class="progress-track"><span style="width: {{ course_percent }}%"></span></div></div>
+          <div class="course-card-bottom"><a class="card-action enrolled-action" href="{{ url_for('course_detail', course_id=course.id) }}">Continue learning <span aria-hidden="true">→</span></a><form action="{{ url_for('unenroll', course_id=course.id) }}" method="post"><button class="card-action remove-action" type="submit">Remove <span aria-hidden="true">×</span></button></form></div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state my-empty"><span class="empty-icon" aria-hidden="true">▤</span><span class="eyebrow">Your space to grow</span><h2>Your learning journey starts here</h2><p>You haven’t enrolled in a course yet. Find a topic that interests you and your courses will show up here.</p><a class="button button-primary" href="{{ url_for('courses') }}">Explore the course catalog <span aria-hidden="true">→</span></a></div>
+  {% endif %}
+</section>
+{% endblock %}

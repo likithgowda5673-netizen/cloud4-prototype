@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Cloud4Green Labs · Learning starts here{% endblock %}
+{% block content %}
+<section class="landing-hero">
+  <div class="landing-glow landing-glow-one"></div>
+  <div class="landing-glow landing-glow-two"></div>
+  <div class="landing-stars" aria-hidden="true"></div>
+  <div class="landing-content page-width">
+    <div class="landing-copy">
+      <span class="landing-eyebrow"><span></span> CLOUD4GREEN TECHNOLOGIES</span>
+      <h1>Cloud4Green<br><span>Labs</span></h1>
+      <p class="landing-lead">Your next skill starts here.</p>
+      <p class="landing-description">Learn cloud, AI, and modern technology with practical courses built to help you grow.</p>
+      <a class="button landing-login-button" href="{{ url_for('login') }}">Log in to your learning space <span aria-hidden="true">→</span></a>
+      <div class="landing-topics" aria-label="Learning topics"><span>Cloud</span><i></i><span>Artificial intelligence</span><i></i><span>DevOps</span></div>
+    </div>
+    <div class="landing-art" aria-hidden="true">
+      <div class="art-halo art-halo-one"></div><div class="art-halo art-halo-two"></div>
+      <svg class="network-art" viewBox="0 0 720 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="networkLine" x1="95" y1="110" x2="630" y2="430" gradientUnits="userSpaceOnUse"><stop stop-color="#1B75D0" stop-opacity=".05"/><stop offset=".48" stop-color="#1BB9E9" stop-opacity=".8"/><stop offset="1" stop-color="#206CCB" stop-opacity=".1"/></linearGradient>
+          <radialGradient id="cloudGlow"><stop stop-color="#168AF3" stop-opacity=".25"/><stop offset="1" stop-color="#168AF3" stop-opacity="0"/></radialGradient>
+          <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <circle cx="395" cy="214" r="205" fill="url(#cloudGlow)"/>
+        <g stroke="url(#networkLine)" stroke-width="1">
+          <path d="M12 386 120 274 210 340 297 224 365 305 456 208 535 286 692 194"/><path d="m45 164 112 74 140-14 112 80 114-116 108 48"/><path d="m120 274 37-36 53 102 87-116 16-96 112 176 31-96 79 78 54 100"/><path d="m210 340 61 85 94-120 91-97 46-116 49 180 93 70"/><path d="m297 224 15-90 100-42 110 24 80 94"/><path d="m365 305 90-97 67-92 58 174 102-96"/><path d="m12 386 180 39 79-2 176-8 165 51"/>
+        </g>
+        <g fill="#36B8F4" filter="url(#softGlow)">
+          <circle cx="120" cy="274" r="3"/><circle cx="210" cy="340" r="3"/><circle cx="297" cy="224" r="3"/><circle cx="365" cy="305" r="3"/><circle cx="456" cy="208" r="4"/><circle cx="535" cy="286" r="3"/><circle cx="157" cy="238" r="3"/><circle cx="271" cy="425" r="3"/><circle cx="312" cy="134" r="3"/><circle cx="412" cy="92" r="3"/><circle cx="522" cy="116" r="3"/><circle cx="580" cy="310" r="3"/><circle cx="630" cy="450" r="4"/><circle cx="45" cy="164" r="2"/><circle cx="692" cy="194" r="3"/><circle cx="178" cy="425" r="3"/><circle cx="448" cy="415" r="3"/>
+        </g>
+        <path d="M272 259c0-37 30-67 67-67 10-42 48-73 93-73 48 0 88 34 95 80 35 4 62 34 62 70 0 39-31 70-70 70H340c-38 0-68-31-68-69Z" fill="#06182B" fill-opacity=".72" stroke="#278DE8" stroke-opacity=".72" stroke-width="2"/>
+        <path d="M295 257c0-27 21-48 48-48 9-36 43-62 82-62 41 0 75 29 81 68 31 1 56 26 56 57 0 32-26 58-58 58H350c-30 0-55-25-55-55Z" stroke="#51B9FF" stroke-opacity=".26" stroke-width="1.5"/>
+        <path d="M432 229v-17m-19 17v-25m38 25v-25m-57 25v-17m76 17v-17m-95 17v-10m114 10v-10M432 293v17m-19-17v25m38-25v25m-57-25v17m76-17v17" stroke="#38B9F7" stroke-width="2" stroke-linecap="round"/>
+        <rect x="402" y="229" width="60" height="62" rx="8" fill="#071C32" stroke="#168AF3" stroke-width="2"/>
+        <rect x="408" y="235" width="48" height="50" rx="5" fill="#0C2A4A"/>
+        <text x="432" y="269" fill="#55BEFF" font-family="Arial,sans-serif" font-size="24" font-weight="700" text-anchor="middle">AI</text>
+        <g fill="#071426" stroke="#1373BC" stroke-opacity=".7">
+          <path d="M40 405h39v-83H40zM85 405h53V290H85zM145 405h38V348h-38zM191 405h55V312h-55zM489 405h43V331h-43zM540 405h60V283h-60zM608 405h47v-94h-47zM663 405h30v-58h-30z"/>
+        </g>
+        <g stroke="#168AF3" stroke-opacity=".4"><path d="M49 335h6m-6 14h6m-6 14h6m-6 14h6m-6 14h6m47-86h8m-8 15h8m-8 15h8m-8 15h8m-8 15h8m104-39h8m-8 15h8m-8 15h8m-8 15h8m305-14h7m-7 15h7m61-97h8m-8 15h8m-8 15h8m-8 15h8m-8 15h8m-8 15h8m62-80h8m-8 15h8m-8 15h8m-8 15h8"/></g>
+        <path d="M10 406h700" stroke="#1B87CE" stroke-opacity=".35"/>
+      </svg>
+      <div class="art-label art-label-top"><span class="art-label-icon">✦</span><span><b>Learn by doing</b><small>Skills for the real world</small></span></div>
+      <div class="art-label art-label-bottom"><span class="art-label-icon">↗</span><span><b>Your future, in progress</b><small>One lesson at a time</small></span></div>
+    </div>
+  </div>
+  <div class="landing-bottom"><span>LEARN WITH PURPOSE</span><span class="landing-bottom-line"></span><span>GROW WITH CONFIDENCE</span></div>
+</section>
+{% endblock %}

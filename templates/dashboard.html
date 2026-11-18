@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Cloud4Green Academy{% endblock %}
+{% block content %}
+<section class="dashboard page-width">
+  <div class="dashboard-heading"><div><span class="eyebrow">Your learning space</span><h1>Welcome, {{ current_user or "learner" }} <span class="wave-emoji" aria-hidden="true">✦</span></h1><p>A little progress each day adds up to something big.</p></div><a class="button button-primary" href="{{ url_for('courses') }}">Find a course <span aria-hidden="true">→</span></a></div>
+  <div class="metric-grid">
+    <article class="metric-card"><span class="metric-icon metric-blue">▤</span><span class="metric-label">Courses enrolled</span><strong>{{ courses|length }}</strong><small>Keep building your skills</small></article>
+    <article class="metric-card"><span class="metric-icon metric-green">✓</span><span class="metric-label">Lessons completed</span><strong>{{ progress_summary.completed }}</strong><small>Consistency is your superpower</small></article>
+    <article class="metric-card"><span class="metric-icon metric-purple">✦</span><span class="metric-label">Learning points</span><strong>{{ progress_summary.points }}</strong><small>Earn 10 points per lesson</small></article>
+  </div>
+  <div class="dashboard-columns">
+    <section class="panel learning-panel">
+      <div class="panel-heading"><div><span class="eyebrow">Pick up where you left off</span><h2>My learning</h2></div><a class="text-link" href="{{ url_for('my_learning') }}">View all <span aria-hidden="true">→</span></a></div>
+      {% if courses %}
+        <div class="learning-list">{% for course in courses %}{% set course_stats = course_progress[course.id] %}<article class="learning-row"><span class="learning-icon art-{{ course.accent }}">{{ course.icon }}</span><div class="learning-details"><h3>{{ course.title }}</h3><span>{{ course_stats.completed }} of {{ course.lessons }} lessons · {{ course.duration }}</span><div class="progress-track"><span style="width: {{ course_stats.percent }}%"></span></div></div><a class="round-arrow" href="{{ url_for('course_detail', course_id=course.id) }}" aria-label="Open {{ course.title }}">→</a></article>{% endfor %}</div>
+      {% else %}
+        <div class="dashboard-empty"><span class="empty-icon" aria-hidden="true">▤</span><h3>Your learning journey starts here</h3><p>Enroll in a course to see your progress and continue learning from this dashboard.</p><a class="button button-outline" href="{{ url_for('courses') }}">Browse courses</a></div>
+      {% endif %}
+    </section>
+    <aside class="panel week-panel">
+      <div class="panel-heading"><div><span class="eyebrow">Make time for you</span><h2>This week</h2></div><span class="calendar-date">NOV<br><b>18</b></span></div>
+      <div class="week-days">{% for day, date in [("M", 16), ("T", 17), ("W", 18), ("T", 19), ("F", 20), ("S", 21), ("S", 22)] %}<div class="{{ 'day-today' if date == 18 else '' }}"><span>{{ day }}</span><b>{{ date }}</b></div>{% endfor %}</div>
+      <div class="week-note"><span class="note-icon">✦</span><div><b>Your next step</b><p>Set aside 20 minutes for a lesson today.</p></div></div>
+      <a class="text-link calendar-link" href="{{ url_for('my_learning') }}">View learning plan <span aria-hidden="true">→</span></a>
+    </aside>
+  </div>
+  <div class="dashboard-shortcuts">
+    <a class="shortcut-card" href="{{ url_for('progress') }}"><span class="shortcut-icon">✦</span><span><b>Progress & badges</b><small>See your milestones and leaderboard</small></span><span class="shortcut-arrow">→</span></a>
+    <a class="shortcut-card" href="{{ url_for('verify_certificate') }}"><span class="shortcut-icon shortcut-certificate">✓</span><span><b>Verify a certificate</b><small>Look up a sample certificate code</small></span><span class="shortcut-arrow">→</span></a>
+  </div>
+  <section class="recommendation panel">
+    <div class="recommendation-copy"><span class="eyebrow eyebrow-light">Curated for curious minds</span><h2>Not sure where to start?</h2><p>Explore a learning path designed to turn curiosity into practical skills.</p><a class="button button-white" href="{{ url_for('courses') }}">Explore the catalog <span aria-hidden="true">→</span></a></div>
+    <div class="recommendation-art" aria-hidden="true"><span>✦</span><i></i><b>LEARN<br>GROW<br>REPEAT</b></div>
+  </section>
+</section>
+{% endblock %}

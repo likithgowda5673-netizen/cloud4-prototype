@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Certificate verification · Cloud4Green Academy{% endblock %}
+{% block content %}
+<section class="certificate-page">
+  <div class="certificate-intro">
+    <span class="eyebrow eyebrow-light">Cloud4Green Academy</span>
+    <h1>Achievements worth<br><span>sharing.</span></h1>
+    <p>Verify an issued course certificate with its unique verification code.</p>
+    <div class="certificate-seal" aria-hidden="true"><span>✓</span><small>LEARNING<br>VERIFIED</small></div>
+  </div>
+  <section class="certificate-card panel">
+    <span class="eyebrow">Certificate lookup</span>
+    <h2>Verify a certificate</h2>
+    <p>Enter the verification code shown on the certificate.</p>
+    <form class="certificate-form" action="{{ url_for('verify_certificate') }}" method="get">
+      <label for="certificate-code">Verification code</label>
+      <div class="certificate-input-row"><input id="certificate-code" type="text" name="code" value="{{ code }}" placeholder="e.g. C4G-CLOUD-2026-001" autocomplete="off" required><button class="button button-primary" type="submit">Verify</button></div>
+    </form>
+    {% if searched %}
+      {% if certificate %}
+        <div class="certificate-result certificate-valid" role="status">
+          <span class="result-mark" aria-hidden="true">✓</span>
+          <div><strong>{{ "Sample certificate found" if certificate.is_sample else "Certificate verified" }}</strong><p>{{ "This code matches a sample record in the prototype." if certificate.is_sample else "This code matches a certificate issued by the Cloud4Green Academy prototype." }}</p>
+            <dl><div><dt>Learner</dt><dd>{{ certificate.learner }}</dd></div><div><dt>Course</dt><dd>{{ certificate.course }}</dd></div><div><dt>Issued</dt><dd>{{ certificate.issued }}</dd></div><div><dt>Code</dt><dd>{{ code }}</dd></div></dl>
+            <a class="text-link certificate-view-link" href="{{ url_for('view_certificate', certificate_code=code) }}">View certificate <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      {% else %}
+        <div class="certificate-result certificate-invalid" role="status"><span class="result-mark" aria-hidden="true">!</span><div><strong>No matching certificate</strong><p>Check the code and try again. This demo only includes the sample certificates listed below.</p></div></div>
+      {% endif %}
+    {% endif %}
+    <div class="sample-codes"><strong>Sample codes to try</strong><button type="button" data-certificate-code="C4G-CLOUD-2026-001">C4G-CLOUD-2026-001</button><button type="button" data-certificate-code="C4G-AWS-2026-014">C4G-AWS-2026-014</button></div>
+    <p class="certificate-disclaimer">Prototype verification only. Demo certificates are not official credentials.</p>
+  </section>
+</section>
+{% endblock %}

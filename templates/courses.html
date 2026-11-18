@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Explore courses · Cloud4Green Academy{% endblock %}
+{% block content %}
+<section class="page-hero page-width">
+  <div><span class="eyebrow">Find your next skill</span><h1>Explore courses</h1><p>Choose a path that fits where you want to go.</p></div>
+  <div class="catalog-stat"><strong>{{ courses|length }}</strong><span>courses to explore</span></div>
+</section>
+<section class="catalog page-width">
+  <form class="catalog-toolbar" action="{{ url_for('courses') }}" method="get">
+    <label class="search-field"><span class="sr-only">Search courses</span><span class="search-icon" aria-hidden="true">⌕</span><input type="search" name="q" value="{{ query }}" placeholder="Search by course, skill, or topic"><button type="submit">Search</button></label>
+    <label class="filter-field"><span class="sr-only">Filter by category</span><select name="category" onchange="this.form.submit()"><option value="All" {{ 'selected' if selected_category == 'All' else '' }}>All topics</option>{% for category in categories %}<option value="{{ category }}" {{ 'selected' if selected_category == category else '' }}>{{ category }}</option>{% endfor %}</select></label>
+  </form>
+  {% if courses %}
+    <div class="course-grid catalog-grid">{% for course in courses %}{% include "partials/course_card.html" %}{% endfor %}</div>
+  {% else %}
+    <div class="empty-state"><span class="empty-icon" aria-hidden="true">⌕</span><h2>No courses found</h2><p>Try a different search or clear the topic filter.</p><a class="button button-outline" href="{{ url_for('courses') }}">Clear filters</a></div>
+  {% endif %}
+</section>
+{% endblock %}

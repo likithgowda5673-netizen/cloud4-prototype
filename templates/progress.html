@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Progress & achievements · Cloud4Green Academy{% endblock %}
+{% block content %}
+<section class="page-hero page-width progress-page-hero">
+  <div><span class="eyebrow">Every lesson counts</span><h1>Your progress</h1><p>Build momentum, earn badges, and celebrate the work you put in.</p></div>
+  <a class="button button-primary" href="{{ url_for('my_learning') }}">Continue learning <span aria-hidden="true">→</span></a>
+</section>
+<section class="progress-page page-width">
+  {% for certificate in certificates %}
+    <div class="progress-certificate-link"><span>🎓</span><div><strong>You’ve completed {{ certificate.course }}!</strong><small>Your certificate is ready to view and verify.</small></div><a class="text-link" href="{{ url_for('view_certificate', certificate_code=certificate.code) }}">View certificate <span aria-hidden="true">→</span></a></div>
+  {% endfor %}
+  <div class="progress-overview panel">
+    <div class="progress-overview-copy"><span class="eyebrow">All enrolled courses</span><h2>{{ progress.percent }}% complete</h2><p>{{ progress.completed }} of {{ progress.total }} lessons completed · {{ progress.points }} learning points</p><div class="progress-track"><span style="width: {{ progress.percent }}%"></span></div></div>
+    <div class="progress-ring" style="--progress: {{ progress.percent }}%"><div><strong>{{ progress.percent }}%</strong><span>complete</span></div></div>
+  </div>
+  <div class="progress-columns">
+    <section class="panel badges-panel">
+      <div class="panel-heading"><div><span class="eyebrow">Little wins add up</span><h2>Your badges</h2></div><span class="outline-count">{{ progress.milestones|selectattr('earned')|list|length }}/{{ progress.milestones|length }} earned</span></div>
+      <div class="badge-grid">
+        {% for badge in progress.milestones %}
+          <article class="achievement-badge {{ 'badge-earned' if badge.earned else 'badge-locked' }}">
+            <span class="badge-medal" aria-hidden="true">{{ badge.icon }}</span>
+            <div><h3>{{ badge.title }}</h3><p>{{ badge.detail }}</p></div>
+            <span class="badge-state">{{ "Earned" if badge.earned else (badge.required ~ " lessons" if badge.required else "Finish a course") }}</span>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+    <section class="panel leaderboard-panel">
+      <div class="panel-heading"><div><span class="eyebrow">Friendly motivation</span><h2>Leaderboard</h2></div><span class="leaderboard-period">All time</span></div>
+      <p class="leaderboard-note">Sample demo scores · 10 points per completed lesson</p>
+      <ol class="leaderboard-list">
+        {% for learner in leaderboard %}
+          <li class="{{ 'leaderboard-current' if learner.is_current_user else '' }}">
+            <span class="leader-rank">{{ "%02d"|format(learner.rank) }}</span>
+            <span class="leader-avatar">{{ learner.name[:1]|upper }}</span>
+            <span class="leader-details"><b>{{ learner.name }}{% if learner.is_current_user %} <small>(you)</small>{% endif %}</b><small>{{ learner.label }}</small></span>
+            <strong class="leader-points">{{ learner.points }} <small>pts</small></strong>
+          </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </div>
+</section>
+{% endblock %}

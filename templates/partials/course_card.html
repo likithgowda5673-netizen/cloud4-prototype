@@ -1,0 +1,19 @@
+<article class="course-card">
+  <a class="course-art art-{{ course.accent }}" href="{{ url_for('course_detail', course_id=course.id) }}" aria-label="Explore {{ course.title }}">
+    <span class="course-art-icon" aria-hidden="true">{{ course.icon }}</span>
+    <span class="course-art-tag">{{ course.tag }}</span>
+    <span class="art-decoration art-decoration-one"></span><span class="art-decoration art-decoration-two"></span>
+  </a>
+  <div class="course-info">
+    <div class="course-meta"><span>{{ course.category }}</span><span class="meta-dot"></span><span>{{ course.level }}</span></div>
+    <h3><a href="{{ url_for('course_detail', course_id=course.id) }}">{{ course.title }}</a></h3>
+    <p>{{ course.description }}</p>
+    <div class="course-card-bottom"><span class="duration"><span aria-hidden="true">◷</span> {{ course.duration }} <span class="meta-dot"></span> {{ course.lessons }} lessons</span>
+      {% if course.id in session.get('enrolled_courses', []) %}
+        <a class="card-action enrolled-action" href="{{ url_for('course_detail', course_id=course.id) }}" aria-label="Open {{ course.title }}">Open <span aria-hidden="true">→</span></a>
+      {% else %}
+        <form action="{{ url_for('enroll', course_id=course.id) }}" method="post"><button class="card-action" type="submit" aria-label="Enroll in {{ course.title }}">Enroll <span aria-hidden="true">→</span></button></form>
+      {% endif %}
+    </div>
+  </div>
+</article>

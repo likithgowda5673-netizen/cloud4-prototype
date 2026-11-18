@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Sign in · Cloud4Green Academy{% endblock %}
+{% block content %}
+<section class="login-layout">
+  <div class="login-story">
+    <span class="eyebrow eyebrow-light">Welcome to Cloud4Green Academy</span>
+    <h1>Every expert<br>started <span>somewhere.</span></h1>
+    <p>Sign in to pick up your learning journey, track your progress, and make your next move.</p>
+    <div class="login-story-note"><span>✦</span><span>Practical skills. Real momentum.</span></div>
+  </div>
+  <form class="login-card" action="{{ url_for('login') }}" method="post">
+    <input type="hidden" name="next" value="{{ next_url }}">
+    <div class="login-brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+    <span class="eyebrow">Your learning space awaits</span><h2>Welcome back</h2><p>Enter your name to continue to your demo account.</p>
+    <label for="name">Your name</label><input id="name" name="name" type="text" autocomplete="name" placeholder="e.g. Alex Morgan" required>
+    <button class="button button-primary login-submit" type="submit">Continue to dashboard <span aria-hidden="true">→</span></button>
+    <small class="demo-note">Prototype sign-in only. No password or real account is required.</small>
+  </form>
+</section>
+{% endblock %}
